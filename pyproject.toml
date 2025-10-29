@@ -1,0 +1,11 @@
+[project]
+    name = "translate"
+    version = "1.0.0"
+    description = "translate tools"
+    readme = "README.md"
+    license-files = [
+        "./LICENSE.txt",
+    ]
+    requires-python = ">=3.14"
+    dependencies = [
+    ]
