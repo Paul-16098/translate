@@ -1,3 +1,6 @@
+import json
+
+
 class Branch:
     branch_date: dict[str, dict[str, str]]
     _ver: dict[str, str | list[str] | set[str] | tuple[str]]
@@ -58,6 +61,40 @@ class Branch:
         for k, v in self.done().items():
             reverse_map.setdefault(v, set()).add(k)
         return reverse_map
+
+    @staticmethod
+    def import_from_file(brach_path="Branch.json", ver_path="BranchVer"):
+        with open(ver_path, "rt", encoding="utf-8") as f:
+            ver = json.load(f)
+        with open(brach_path, "rt", encoding="utf-8") as f:
+            bd = json.load(f)
+        return Branch.import_from_json(bd, ver)
+
+    @staticmethod
+    def import_from_json(
+        branch_json: dict[str, dict[str, str]],
+        ver_json: dict[str, str | list[str] | set[str] | tuple[str]],
+    ):
+        b = Branch(ver_json)
+        b.branch_date = branch_json
+        return b
+
+    def export_to_file(
+        self,
+        brach_path="Branch.json",
+        ver_path="BranchVer",
+    ):
+        ver = {}
+        for k, v in self._ver.items():
+            if isinstance(v, (str)) or isinstance(v, (tuple, list)):
+                ver[k] = v
+            elif isinstance(v, (set)):
+                ver[k] = tuple(v)
+        with open(ver_path, "wt", encoding="utf-8") as f:
+            json.dump(ver, f, ensure_ascii=False)
+        with open(brach_path, "wt", encoding="utf-8") as f:
+            json.dump(self.branch_date, f, ensure_ascii=False)
+        return self
 
 
 # 測試用例

@@ -1,6 +1,4 @@
 from translate_data import (
-    compiledRegexPatterns,
-    stringReplacementMap,
     compiledRegexPatternsWithBranch,
     stringReplacementMapWithBranch,
 )
@@ -11,10 +9,6 @@ import re
 # 初始化 Pattern_match_status：使用可辨識的字串 value
 Pattern_match_status: dict[str, int] = {}
 
-for cp in compiledRegexPatterns.values():
-    Pattern_match_status[cp] = 0
-for s_key in stringReplacementMap.values():
-    Pattern_match_status[s_key] = 0
 
 for k in compiledRegexPatternsWithBranch.keys():
     Pattern_match_status[k] = 0
@@ -99,18 +93,13 @@ def process_files(input_path: str, output_path: str):
         content, compiledRegexPatternsWithBranch
     )
 
-    # 應用正則表達式替換
-    content = apply_regex_replacements(content, compiledRegexPatterns)
-
     # 保存中間結果
+
     # write_file("sep1.txt", content)
 
     content = apply_direct_replacements_with_branch(
         content, stringReplacementMapWithBranch
     )
-
-    # 應用直接替換
-    content = apply_direct_replacements(content, stringReplacementMap)
 
     write_file(
         output_path,
