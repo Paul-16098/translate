@@ -1,4 +1,4 @@
-from trs_data import (
+from translate_data import (
     compiledRegexPatterns,
     stringReplacementMap,
     compiledRegexPatternsWithBranch,
